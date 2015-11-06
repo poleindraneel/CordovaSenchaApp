@@ -1,52 +1,16 @@
-﻿Ext.application({
-    name: "BlankCordovaApp101",
-    requires: ['Ext.MessageBox'],
-
-    views: ['Main'],
-    controllers: ['UserController'],
-    profile:['phone','tablet'],
-    launch: function () {
-        Ext.fly('appLoadingIndicator').destroy();
-        
-    }
-});
-
-/*Ext.define('BlankCordovaApp101.profile.Phone', {
-    extend: 'Ext.app.Profile',
-
-    config: {
-        name: 'Phone',
-        view: ['Main']
-    },
-
-    isActive: function () {
-        return Ext.os.is('Phone');
-    },
-
-    launch: function () {
-        Ext.create('BlankCordovaApp101.views.phone.Main');
-    }
-});*/
-
+﻿
 Ext.define('BlankCordovaApp101.view.Main',{
     extend: 'Ext.Container',
-    xtype: 'main',
+    xtype: 'Main',
     fullscreen: true,
     config: {
         id: 'mainView', //this id can be used for getter setter object in controller refs
-        items: [
-        {
-            xtype: 'button',
-            ref: 'testBtn', //This id should be used in the controller to add the listener for an event. It could be action, id, or ref. In the refs of the controller you must add objectName: 'button[itemId=idName]'
-            text: 'test button',
-            height:'20%'
-        }]
     }
 });
 
 Ext.define('BlankCordovaApp101.view.phone.Main', {
     extend: 'BlankCordovaApp101.view.Main',
-    xtype: 'main',
+    xtype: 'phone',
     fullscreen: true,
     config: {
         id: 'phoneMainView',
@@ -54,10 +18,11 @@ Ext.define('BlankCordovaApp101.view.phone.Main', {
         {
             xtype: 'button',
             text: 'Button created inside a phone view',
-            ref: 'tstPhnBtn'
+            ref: 'testBtn'
         }]
     }
 });
+
 Ext.define('BlankCordovaApp101.view.tablet.Main', {
 extend: 'BlankCordovaApp101.view.Main',
 xtype: 'main',
@@ -68,14 +33,14 @@ config: {
     {
         xtype: 'button',
         text: 'Button created inside a tablet view',
-        ref: 'tstTbltBtn'
+        ref: 'testBtn'
     }]
 }
 });
 
 Ext.define('BlankCordovaApp101.controller.UserController', {
     extend: 'Ext.app.Controller',
-    views: ['BlankCordovaApp101.view.Main'],
+    views: ['BlankCordovaApp101.view.Main','BlankCordovaApp101.view.phone.Main'],
     config: {
         refs: {
             mainView: '#mainView', //Needs hash in front of it
@@ -96,14 +61,13 @@ Ext.define('BlankCordovaApp101.controller.UserController', {
 });
 Ext.define('BlankCordovaApp101.profile.Phone', {
     extend: 'Ext.app.Profile',
-
     config: {
         name: 'Phone',
-        views: ['phoneview']
+        views: ['Main']
     },
 
     isActive: function () {
-        console.log(Ext.os.is('Phone'));
+        console.log("Phone view is "+Ext.os.is('Phone'));
         return Ext.os.is('Phone');
     },
     launch: function () {
@@ -116,10 +80,25 @@ Ext.define('BlankCordovaApp101.profile.Tablet', {
 
     config: {
         name: 'Tablet',
-        views: ['tabview']
+        views: ['Main']
     },
 
     isActive: function () {
+        console.log("Tablet view is " + Ext.os.is('Tablet'));
         return Ext.os.is('Tablet');
+    },
+    launch: function () {
+    Ext.Viewport.add(Ext.create('BlankCordovaApp101.view.tablet.Main', { fullscreen: true }));
+}
+});
+Ext.application({
+    name: "BlankCordovaApp101",
+    requires: ['Ext.MessageBox'],
+
+    views: ['Main'],
+    controllers: ['UserController'],
+    profiles: ['Phone','Tablet'],
+    launch: function () {
+        Ext.fly('appLoadingIndicator').destroy();
     }
 });
