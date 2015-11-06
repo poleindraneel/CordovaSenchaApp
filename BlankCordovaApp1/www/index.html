@@ -7,7 +7,7 @@
         Customize the content security policy in the meta tag below as needed. Add 'unsafe-inline' to default-src to enable inline JavaScript.
         For details, see http://go.microsoft.com/fwlink/?LinkID=617521
     -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+    <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'" />
     <title>BlankCordovaApp1</title>
 
     <!-- BlankCordovaApp1 references -->
@@ -85,7 +85,6 @@
                 ;
                 Ext.blink({
                     "id": "9e31cc20-c5bd-11e1-9ff6-3313363a50f2", "js": [
-                        { "path": "appConfig.js", "type": "js" },
                         { "path": "app.js", "bundle": true, "update": "delta", "type": "js" }
                     ], "css": [
                         { "path": "resources/css/app.css", "update": "delta", "type": "css" }
