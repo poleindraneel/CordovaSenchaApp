@@ -1,4 +1,8 @@
-﻿
+﻿/*
+This is the main view of the application.
+This view will be extended to phone and tablet view in order to get 
+two different layouts for different screen size
+*/
 Ext.define('BlankCordovaApp101.view.Main',{
     extend: 'Ext.Container',
     xtype: 'Main',
@@ -7,7 +11,10 @@ Ext.define('BlankCordovaApp101.view.Main',{
         id: 'mainView', //this id can be used for getter setter object in controller refs
     }
 });
-
+/*
+This is the phone main view.
+It has one button.
+*/
 Ext.define('BlankCordovaApp101.view.phone.Main', {
     extend: 'BlankCordovaApp101.view.Main',
     xtype: 'phone',
@@ -23,6 +30,10 @@ Ext.define('BlankCordovaApp101.view.phone.Main', {
     }
 });
 
+/*
+This is tablet main view.
+This has one button.
+*/
 Ext.define('BlankCordovaApp101.view.tablet.Main', {
 extend: 'BlankCordovaApp101.view.Main',
 xtype: 'main',
@@ -38,9 +49,14 @@ config: {
 }
 });
 
+/*
+This is the controller. 
+This will have a control function for both the buttons created in tab and phone view
+This will be carried out by having same reference tag for both the buttons.
+*/
 Ext.define('BlankCordovaApp101.controller.UserController', {
     extend: 'Ext.app.Controller',
-    views: ['BlankCordovaApp101.view.Main','BlankCordovaApp101.view.phone.Main'],
+    views: ['BlankCordovaApp101.view.Main'],
     config: {
         refs: {
             mainView: '#mainView', //Needs hash in front of it
@@ -59,6 +75,12 @@ Ext.define('BlankCordovaApp101.controller.UserController', {
         Ext.Msg.alert("Warning!", "You clicked test button");
     },
 });
+
+/*
+This is the phone profile.
+It checks if the device is phone.
+If yes, it launches a function that adds phone view to the viewport
+*/
 Ext.define('BlankCordovaApp101.profile.Phone', {
     extend: 'Ext.app.Profile',
     config: {
@@ -75,6 +97,11 @@ Ext.define('BlankCordovaApp101.profile.Phone', {
     }
 });
 
+/*
+This is the tablet profile.
+It checks if the device is tablet.
+If yes, it launches a function that adds tablet view to the viewport
+*/
 Ext.define('BlankCordovaApp101.profile.Tablet', {
     extend: 'Ext.app.Profile',
 
@@ -91,6 +118,10 @@ Ext.define('BlankCordovaApp101.profile.Tablet', {
     Ext.Viewport.add(Ext.create('BlankCordovaApp101.view.tablet.Main', { fullscreen: true }));
 }
 });
+
+/*
+This is the entry point of the application.
+*/
 Ext.application({
     name: "BlankCordovaApp101",
     requires: ['Ext.MessageBox'],
