@@ -24,9 +24,43 @@ Ext.define('BlankCordovaApp101.view.phone.Main', {
         items: [
         {
             xtype: 'button',
-            text: 'Button created inside a phone view',
-            ref: 'testBtn'
-        }]
+            text:  'Click here to open camera',
+            ref:   'testBtn'
+        },
+        {
+            xtype: 'container',
+            layout: {
+                type: 'vbox',
+                align: 'middle'
+            },
+            width: 500,
+            height: 400,
+            ref: 'viewImage'
+
+        },
+        {
+            xtype: 'image',
+            height: 201,
+            itemId: 'myImage'
+        }
+        ]
+    }
+});
+
+Ext.define('BlankCordovaApp101.view.phone.Window', {
+    extend: 'Ext.form.Panel',
+    xtype: 'imageView',
+    
+    config: {
+        fullscreen: true,
+        id: 'imageView',
+        items: [
+            {
+                xtype: 'image',
+                height: 201,
+                itemId: 'myimage'
+            }
+        ]
     }
 });
 
@@ -45,6 +79,11 @@ config: {
         xtype: 'button',
         text: 'Button created inside a tablet view',
         ref: 'testBtn'
+    },
+    {
+        xtype: 'container',
+        ref: 'viewImage'
+
     }]
 }
 });
@@ -59,8 +98,9 @@ Ext.define('BlankCordovaApp101.controller.UserController', {
     views: ['BlankCordovaApp101.view.Main'],
     config: {
         refs: {
-            mainView: '#mainView', //Needs hash in front of it
-            tstBtn: 'button[ref=testBtn]'
+            mainView: '#phoneMainView', //Needs hash in front of it
+            tstBtn: 'button[ref=testBtn]',
+            imgView: 'container[ref=viewImage]'
         },
         control: {
             tstBtn: {
@@ -71,8 +111,18 @@ Ext.define('BlankCordovaApp101.controller.UserController', {
     onBtnClick: function () {
         console.log("inside on click function");
         var me = this;
+        var imgNew;
         var nav = me.getMainView();
-        Ext.Msg.alert("Warning!", "You clicked test button");
+        var img = me.getImgView();
+        navigator.camera.getPicture(function (imageData) {
+            imgNew = imageData;
+            var form = Ext.create("BlankCordovaApp101.view.phone.Window");
+            form.getComponent('myimage').setSrc(imgNew);
+            me.getMainView().push(form);
+            //me.getImgView().html = "<div id='imgView'> <img src='" + imageData + "' style='width:75%;'></img></div>";
+        }, null, null);
+
+        //Ext.Msg.alert("Warning!", "Your picture is captured");
     },
 });
 
@@ -118,7 +168,6 @@ Ext.define('BlankCordovaApp101.profile.Tablet', {
     Ext.Viewport.add(Ext.create('BlankCordovaApp101.view.tablet.Main', { fullscreen: true }));
 }
 });
-
 /*
 This is the entry point of the application.
 */
